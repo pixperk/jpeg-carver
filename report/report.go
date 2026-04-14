@@ -54,7 +54,14 @@ func Generate(results []carver.Result, imagePath, outPath string, elapsed time.D
 		fmt.Fprintf(f, "  File   : %s\n", filepath.Base(r.OutputPath))
 		fmt.Fprintf(f, "  Status : %s\n", status)
 		fmt.Fprintf(f, "  Offset : 0x%08X (%d)\n", r.Offset, r.Offset)
-		fmt.Fprintf(f, "  Size   : %d bytes\n\n", r.Size)
+		fmt.Fprintf(f, "  Size   : %d bytes\n", r.Size)
+		if r.SHA256 != "" {
+			fmt.Fprintf(f, "  SHA-256: %s\n", r.SHA256)
+		}
+		if r.HexDump != "" {
+			fmt.Fprintf(f, "  Hex    : %s\n", r.HexDump)
+		}
+		fmt.Fprintln(f)
 	}
 
 	fmt.Fprintf(f, "============================================\n")

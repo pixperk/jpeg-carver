@@ -1,6 +1,8 @@
 package carver
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -12,11 +14,48 @@ import (
 // Result holds metadata about a single carved file.
 type Result struct {
 	Index      int
-	Offset     int64 // byte offset of SOI in the image
+	Offset     int64  // byte offset of SOI in the image
 	Size       int64
 	OutputPath string
-	Valid      bool // set later by validator
-	Truncated  bool // true if EOI was never found
+	SHA256     string // hex-encoded SHA-256 hash
+	HexDump    string // first 32 bytes as hex
+	Valid      bool   // set later by validator
+	Truncated  bool   // true if EOI was never found
+}
+
+// ComputeHash reads the carved file and populates SHA256 and HexDump fields.
+func ComputeHash(r *Result) error {
+	data, err := os.ReadFile(r.OutputPath)
+	if err != nil {
+		return err
+	}
+	hash := sha256.Sum256(data)
+	r.SHA256 = hex.EncodeToString(hash[:])
+
+	preview := data
+	if len(preview) > 32 {
+		preview = preview[:32]
+	}
+	r.HexDump = formatHexDump(preview)
+	return nil
+}
+
+// formatHexDump returns a spaced hex string like "FF D8 FF E0 00 10 ..."
+func formatHexDump(data []byte) string {
+	parts := make([]string, len(data))
+	for i, b := range data {
+		parts[i] = fmt.Sprintf("%02X", b)
+	}
+	out := ""
+	for i, p := range parts {
+		if i > 0 && i%16 == 0 {
+			out += "\n             "
+		} else if i > 0 {
+			out += " "
+		}
+		out += p
+	}
+	return out
 }
 
 // CarveJPEGs scans `imagePath` for JPEG SOI/EOI pairs and writes
@@ -125,5 +164,11 @@ func Summary(results []Result, elapsed time.Duration) {
 			ui.Dim(fmt.Sprintf("offset=0x%08X", r.Offset)),
 			ui.Dim(fmt.Sprintf("size=%d bytes", r.Size)),
 		)
+		if r.SHA256 != "" {
+			fmt.Printf("             %s %s\n", ui.Bold("SHA-256:"), ui.Dim(r.SHA256))
+		}
+		if r.HexDump != "" {
+			fmt.Printf("             %s %s\n", ui.Bold("Hex:    "), ui.Dim(r.HexDump))
+		}
 	}
 }

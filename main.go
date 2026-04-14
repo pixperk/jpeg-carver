@@ -95,9 +95,10 @@ func runCarve() {
 		os.Exit(1)
 	}
 
-	// Validate each recovered file
+	// Validate and hash each recovered file
 	for i := range results {
 		results[i].Valid = validator.ValidateJPEG(results[i].OutputPath)
+		carver.ComputeHash(&results[i])
 	}
 
 	elapsed := time.Since(start)
@@ -152,6 +153,7 @@ func runDemo() {
 	}
 	for i := range results {
 		results[i].Valid = validator.ValidateJPEG(results[i].OutputPath)
+		carver.ComputeHash(&results[i])
 	}
 	elapsed := time.Since(start)
 
