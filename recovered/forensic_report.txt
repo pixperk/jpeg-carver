@@ -1,0 +1,52 @@
+============================================
+       JPEG FORENSIC CARVING REPORT
+============================================
+
+Examiner    : Yashaswi Mishra (235805294)
+Date        : 2026-04-15 10:03:25
+Source Image: simulated_disk.dd
+Image Size  : 307816 bytes
+Elapsed     : 2.571549ms
+
+--- Summary ---
+Total files recovered : 4
+Structurally valid    : 4
+Truncated (no EOI)    : 0
+
+--- Recovered Files ---
+
+  File   : recovered_0000.jpg
+  Status : VALID
+  Offset : 0x0000A6D8 (42712)
+  Size   : 25067 bytes
+  SHA-256: bc24d231cca3e864f2f140f896f7263e7870a1710f9c8af6f1c6049bc12ac115
+  Hex    : FF D8 FF E1 00 DE 45 78 69 66 00 00 49 49 2A 00
+             08 00 00 00 06 00 12 01 03 00 01 00 00 00 01 00
+
+  File   : recovered_0001.jpg
+  Status : VALID
+  Offset : 0x000119BE (72126)
+  Size   : 53832 bytes
+  SHA-256: 949a0937bf27a9a4ae8c25e09d262a697f9f131162573d15861c0ff0e77fcb09
+  Hex    : FF D8 FF E1 00 DE 45 78 69 66 00 00 49 49 2A 00
+             08 00 00 00 06 00 12 01 03 00 01 00 00 00 01 00
+
+  File   : recovered_0002.jpg
+  Status : VALID
+  Offset : 0x0002374D (145229)
+  Size   : 80916 bytes
+  SHA-256: 50dce40b22f91799ca5fb0dc51ba9345e64cb6d90268fee79456f843d3f1bffc
+  Hex    : FF D8 FF E1 00 DE 45 78 69 66 00 00 49 49 2A 00
+             08 00 00 00 06 00 12 01 03 00 01 00 00 00 01 00
+
+  File   : recovered_0003.jpg
+  Status : VALID
+  Offset : 0x0003B734 (243508)
+  Size   : 51315 bytes
+  SHA-256: 7ae185b5b3f196dd5dca49c065cdfa9559cce7c454850a45ebe13e5f284cbcd9
+  Hex    : FF D8 FF E1 00 DE 45 78 69 66 00 00 49 49 2A 00
+             08 00 00 00 06 00 12 01 03 00 01 00 00 00 01 00
+
+============================================
+                END OF REPORT
+============================================
